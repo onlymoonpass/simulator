@@ -7,7 +7,7 @@
 #include <cvt.h>
 #include <filesystem>
 #include <util.h>
-#define ENABLE_MULTI_BR
+// #define ENABLE_MULTI_BR
 
 // 中间信号
 #ifdef ENABLE_MULTI_BR
@@ -242,6 +242,7 @@ void IDU::comb_fire() {
     }
   }
 
+#ifdef ENABLE_MULTI_BR
   int br_num = 0;
   for (int i = 0; i < FETCH_WIDTH; i++) {
     out.dec2front->fire[i] = out.dec2ren->valid[i] && in.ren2dec->ready;
@@ -256,6 +257,21 @@ void IDU::comb_fire() {
       br_num++;
     }
   }
+#else
+  for (int i = 0; i < FETCH_WIDTH; i++) {
+    out.dec2front->fire[i] = out.dec2ren->valid[i] && in.ren2dec->ready;
+    out.dec2front->ready = out.dec2front->ready &&
+                           (!in.front2dec->valid[i] || out.dec2ren->valid[i]);
+
+    if (out.dec2front->fire[i] && is_branch(out.dec2ren->uop[i].type)) {
+      now_tag_1 = alloc_tag;
+      tag_vec_1[alloc_tag] = false;
+      tag_list_1[enq_ptr] = alloc_tag;
+      LOOP_INC(enq_ptr_1, MAX_BR_NUM);
+    }
+  }
+
+#endif
 }
 
 void IDU::comb_release_tag() {
