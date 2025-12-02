@@ -13,7 +13,7 @@ typedef struct {
   reg1_t addr_valid;
   reg1_t data_valid;
   reg1_t valid;
-  reg5_t tag;
+  reg4_t tag;
 } STQ_entry;
 
 typedef struct {
@@ -45,8 +45,8 @@ typedef struct {
 
 typedef struct {
   wire1_t mispred;
-  wire32_t br_mask;
-  wire5_t br_tag;
+  wire16_t br_mask;
+  wire4_t br_tag;
   wire7_t redirect_rob_idx;
 } Dec_Broadcast;
 
@@ -137,11 +137,11 @@ typedef struct {
   wire1_t mispred;
   wire32_t redirect_pc;
   wire7_t redirect_rob_idx;
-  wire5_t br_tag;
+  wire4_t br_tag;
 } Prf_Dec;
 
 typedef struct {
-  wire5_t tag[FETCH_WIDTH];
+  wire4_t tag[FETCH_WIDTH];
   wire1_t valid[FETCH_WIDTH];
   wire1_t dis_fire[FETCH_WIDTH];
 } Dis_Stq;

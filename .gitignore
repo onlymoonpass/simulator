@@ -2,3 +2,8 @@ baremetal/memory
 
 # Ignore build files
 /build
+
+.vscode
+a.out
+obj_dir
+*.vcd

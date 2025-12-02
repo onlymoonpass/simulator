@@ -38,6 +38,9 @@ uint32_t *p_memory = new uint32_t[PHYSICAL_MEMORY_LENGTH];
 uint32_t POS_MEMORY_SHIFT = uint32_t(0x80000000 / 4);
 
 int main(int argc, char *argv[]) {
+  Verilated::traceEverOn(true);		// 开启波形跟踪
+  back.rename.rename_interface->trace(back.rename.m_trace, 99);			// 将m_trace与top关联，其中5表示波形的采样深度为5级以下
+  back.rename.m_trace->open("waveform.vcd");
   setbuf(stdout, NULL);
   ifstream inst_data(argv[argc - 1], ios::in);
 

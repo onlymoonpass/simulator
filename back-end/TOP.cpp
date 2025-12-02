@@ -347,6 +347,9 @@ void Back_Top::Back_comb() {
   prf.comb_br_check();
   csr.comb_interrupt();
   rename.comb_alloc();
+  #ifdef USE_VERILATOR
+    rename.verilator_module(0);
+  #endif
   prf.comb_complete();
   prf.comb_awake();
   prf.comb_write();
@@ -373,13 +376,22 @@ void Back_Top::Back_comb() {
   stq.comb();
   prf.comb_read();
   rename.comb_wake();
+  #ifdef USE_VERILATOR
+    rename.verilator_module(0);
+  #endif
   dis.comb_wake();
   rename.comb_rename();
+  #ifdef USE_VERILATOR
+    rename.verilator_module(0);
+  #endif
 
   dis.comb_dispatch();
 
   dis.comb_fire();
   rename.comb_fire();
+  #ifdef USE_VERILATOR
+    rename.verilator_module(0);
+  #endif
   rob.comb_fire();
   idu.comb_fire();
 
@@ -414,21 +426,33 @@ void Back_Top::Back_comb() {
 
   isu.comb_enq();
   rename.comb_commit(); // difftest在这里
+  #ifdef USE_VERILATOR
+    rename.verilator_module(0);
+  #endif
   rob.comb_flush();
   prf.comb_flush();
   exu.comb_flush();
   rename.comb_flush();
+  #ifdef USE_VERILATOR
+    rename.verilator_module(0);
+  #endif
   idu.comb_flush();
   isu.comb_flush();
   rob.comb_branch();
   prf.comb_branch();
   exu.comb_branch();
   rename.comb_branch();
+  #ifdef USE_VERILATOR
+    rename.verilator_module(0);
+  #endif
   isu.comb_branch();
   prf.comb_pipeline();
   exu.comb_pipeline();
   dis.comb_pipeline();
   rename.comb_pipeline();
+  // #ifdef USE_VERILATOR
+    rename.verilator_module(1);
+  // #endif
 }
 
 void Back_Top::Back_seq() {

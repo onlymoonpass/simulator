@@ -36,12 +36,12 @@ using namespace std;
 #define COMMIT_WIDTH 4
 
 #define MAX_SIM_TIME 100000000000
-#define ISSUE_WAY IQ_NUM
+#define ISSUE_WAY 7
 #define MAX_UOP_NUM 3
 
 #define ARF_NUM 32
 #define PRF_NUM 128
-#define MAX_BR_NUM 32
+#define MAX_BR_NUM 16
 
 #define CSR_NUM 21
 
@@ -66,6 +66,9 @@ extern long long sim_time;
 #define CONFIG_PERF_COUNTER
 // #define CONFIG_RUN_REF
 // #define CONFIG_RUN_REF_PRINT
+
+// #define USE_VERILATOR
+// #define VERILATOR_VCD
 
 /*
  * 宽松的va2pa检查：
@@ -133,7 +136,7 @@ extern long long sim_time;
 typedef struct Inst_uop {
   wire32_t instruction;
 
-  wire5_t dest_areg, src1_areg, src2_areg;
+  wire6_t dest_areg, src1_areg, src2_areg;
   wire7_t dest_preg, src1_preg, src2_preg; // log2(ROB_NUM)
   wire7_t old_dest_preg;
   wire32_t src1_rdata, src2_rdata;
@@ -160,7 +163,7 @@ typedef struct Inst_uop {
   wire1_t func7_5;
   wire32_t imm; // 好像不用32bit 先用着
   wire32_t pc;  // 未来将会优化pc的获取
-  wire5_t tag;
+  wire4_t tag;
   wire12_t csr_idx;
   wire7_t rob_idx;
   wire4_t stq_idx;

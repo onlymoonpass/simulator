@@ -12,11 +12,18 @@ CXXINCLUDE += -I./diff/include/
 CXXINCLUDE += -I./front-end/
 CXXINCLUDE += -I./mmu/include/
 
+# for verilator
+CXXINCLUDE += -I$(CONDA_PREFIX)/share/verilator/include
+CXXINCLUDE += -Iobj_dir
+CXXINCLUDE += -I$(CONDA_PREFIX)/include
+##############################################################
 MEM_DIR=./baremetal
 IMG=./baremetal/memory
 
 default: $(CXXSRC) 
-	g++ $(CXXINCLUDE) $(CXXSRC) -O3 -march=native -flto -funroll-loops -mtune=native
+#	g++ $(CXXINCLUDE) $(CXXSRC) -O3 -march=native -flto -funroll-loops -mtune=native
+# for verilator
+	/home/liuguilan/miniconda3/envs/qm/bin/x86_64-conda-linux-gnu-g++ -std=c++20 $(CXXINCLUDE) $(CXXSRC) -O3 -g -march=native -flto -funroll-loops -mtune=native -Lobj_dir -lrename_top -lverilated -lpthread
 
 cov: $(CXXSRC) 
 	g++ $(CXXINCLUDE) $(CXXSRC) -O0 --coverage 
@@ -30,8 +37,13 @@ clean:
 	rm -rf ./baremetal/test.code
 
 gdb:
-	g++ $(CXXINCLUDE) $(CXXSRC) -g
+#	g++ $(CXXINCLUDE) $(CXXSRC) -g
+	/home/liuguilan/miniconda3/envs/qm/bin/x86_64-conda-linux-gnu-g++ -std=c++20 $(CXXINCLUDE) $(CXXSRC) -g -Lobj_dir -lrename_top -lverilated -lpthread
 	gdb --args ./a.out $(IMG)
+
+# 生成 verilog 对应的 c++ 文件
+verilator:
+	verilator --cc -f v_src/filelist_verilator.f --prefix rename_top --trace -CFLAGS -fPIE --build
 
 .PHONY: all clean mem run
 

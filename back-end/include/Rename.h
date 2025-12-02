@@ -2,6 +2,10 @@
 #include "IO.h"
 #include "config.h"
 
+#include <verilated.h>
+#include "/home/liuguilan/verilog/test/simulator/obj_dir/rename_top.h"
+#include <verilated_vcd_c.h>
+
 class REN_IN {
 public:
   Dec_Ren *dec2ren;
@@ -23,7 +27,9 @@ class Rename {
 public:
   REN_IN in;
   REN_OUT out;
-
+  uint64_t vcd_time = 0;
+  rename_top* rename_interface = new rename_top;
+  VerilatedVcdC *m_trace = new VerilatedVcdC;
   Rename();
   void comb_select();
   void comb_rename(); // 重命名
@@ -35,7 +41,7 @@ public:
   void comb_pipeline();
   void comb_flush();
   void seq();
-
+  void verilator_module(int debug);
   // register
   Inst_entry inst_r[FETCH_WIDTH];
   reg7_t arch_RAT[ARF_NUM + 1];
