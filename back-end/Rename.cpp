@@ -65,6 +65,10 @@ Rename::Rename() {
 void Rename::comb_alloc() {
   // 可用寄存器个数 每周期最多使用FETCH_WIDTH个
   wire7_t alloc_reg[FETCH_WIDTH];
+  alloc_reg[0] = 32;
+  alloc_reg[1] = 64;
+  alloc_reg[2] = 96;
+  alloc_reg[3] = 0;
   wire1_t alloc_valid[FETCH_WIDTH] = {false};
 
   for (int i = 0; i < FETCH_WIDTH; i++) {
@@ -297,13 +301,13 @@ void Rename ::comb_commit() {
       if (inst->dest_en && !inst->page_fault_load && !in.rob_bcast->interrupt) {
         arch_RAT_1[inst->dest_areg] = inst->dest_preg;
       }
-      back.difftest_inst(inst);
+      // back.difftest_inst(inst);
     }
   }
 
 #ifdef CONFIG_DIFFTEST
 
-  // back.difftest_cycle();
+  back.difftest_cycle();
 #endif
 }
 
@@ -878,7 +882,7 @@ void Rename ::verilator_module(int debug) {
   }
   uint64_t buffer;
   rename_interface->eval();
-  #ifdef USE_VERILATOR
+  #ifdef VERILATOR_VCD
     m_trace->dump(vcd_time);
     vcd_time = vcd_time + 1;
     m_trace->dump(vcd_time);

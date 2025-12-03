@@ -3,7 +3,7 @@ RISCV_ABI := ilp32
 RISCV_MCMODEL := medlow
 CFLAGS += -O2 
 
-RISCV_PATH := /opt/riscv32/bin/riscv32-unknown-elf-
+RISCV_PATH := /home/liuguilan/opt/riscv-gnu-toolchain/riscv-elf32/bin/riscv32-unknown-elf-
 
 RISCV_GCC     := $(abspath $(RISCV_PATH)gcc)
 RISCV_AS      := $(abspath $(RISCV_PATH)as)

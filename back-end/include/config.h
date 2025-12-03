@@ -61,7 +61,7 @@ extern long long sim_time;
 
 // #define HAS_MMU
 
-// #define CONFIG_DIFFTEST
+#define CONFIG_DIFFTEST
 #define CONFIG_BPU
 #define CONFIG_PERF_COUNTER
 // #define CONFIG_RUN_REF

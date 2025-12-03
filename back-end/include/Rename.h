@@ -3,7 +3,7 @@
 #include "config.h"
 
 #include <verilated.h>
-#include "/home/liuguilan/verilog/test/simulator/obj_dir/rename_top.h"
+#include "/home/liuguilan/verilog/simulator/obj_dir/rename_top.h"
 #include <verilated_vcd_c.h>
 
 class REN_IN {
